@@ -6,15 +6,18 @@ This project is an MCP built on NullShot's TypeScript Framework. it's role is to
 
 ## Tools Included:
 
-- **tokenAnalyzer** | Analyzes Tokens by their technical indicators and returns a detailed analysis.
-- **whaleTracker** | Tracks large wallet movements and returns a detailed response.
-- **tokenSearchAndInfo** | Searches for tokens by name returns basic metadata such as Symbol, Price, etc.
-- **tokenSecurityChecker** | Checks if a Token is a scam or not.
-- **transactionTracker** | Decrypts a transaction's tx hash into readable human text.
-- **getWalletTokenTransactions** | Checks up what were the latest transaction of an specific wallet.
-- **getWalletTokenBalance** | Checks up Tokens possessions of a wallet address.
-- **getNFTByWallet** | Checks up a wallet's NFTs.
-- **getFearAndGreed** | Returns the FearAndGreed index.
+| Tools             | Description                                                                                     |
+|---------------------------|-------------------------------------------------------------------------------------------------|
+| **tokenAnalyzer**        | Analyzes tokens based on their technical indicators and provides detailed analysis.           |
+| **whaleTracker**         | Tracks large wallet movements and gives a detailed response.                                  |
+| **tokenSearchAndInfo**   | Searches for tokens by name and returns basic metadata such as symbol and price.              |
+| **tokenSecurityChecker** | Checks whether a token is a scam or legitimate.                                                 |
+| **transactionTracker**   | Decrypts a transaction's hash into a human-readable text.                                       |
+| **getWalletTokenTransactions** | Checks the latest transactions of a specific wallet.                                    |
+| **getWalletTokenBalance** | Checks the token holdings of a wallet address.                                                   |
+| **getNFTByWallet**       | Checks the NFTs owned by a wallet.                                                                |
+| **getFearAndGreed**       | Retrieves the current Fear and Greed index.                                                        |
+
 
 
 ## Initialization
@@ -49,24 +52,26 @@ npx wrangler deploy
 ```
 
 The whole thing is basically done, but now, you would want to set it up. Here is an example of how it would look like inside of Roo Code:
-{"mcpServers": {
-  "nullshot-blockchain-explorer": {
-    "type": "sse",
-    "url": "example.workers.dev/sse",
-    "alwaysAllow": [
-      "getWalletTokenTransactions",
-      "getWalletTokenBalance",
-      "transactionTracker",
-      "whaleTracker",
-      "tokenAnalyzer",
-      "tokenSecurityChecker",
-      "tokenSearchAndInfo",
-      "getFearAndGreed",
-      "getNFTByWallet"
-    ],
-    "timeout": 300
+```
+  {"mcpServers": {
+    "nullshot-blockchain-explorer": {
+      "type": "sse",
+      "url": "example.workers.dev/sse",
+      "alwaysAllow": [
+        "getWalletTokenTransactions",
+        "getWalletTokenBalance",
+        "transactionTracker",
+        "whaleTracker",
+        "tokenAnalyzer",
+        "tokenSecurityChecker",
+        "tokenSearchAndInfo",
+        "getFearAndGreed",
+        "getNFTByWallet"
+      ],
+      "timeout": 300
+    }
   }
 }
-}
+```
 
 That's it. Now you can easily use the tool by telling the ai whatever you want! :)
