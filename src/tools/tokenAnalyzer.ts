@@ -26,7 +26,7 @@ export function tokenAnalyzer(server: any) {
     async ({ symbol, interval }: { symbol: string; interval: string }) => {
       const apiKey = env.TAAPI_API_KEY;
 
-      // make sure we have an api key before doing anything
+      // making sure we have an api key before doing anything
       if (!apiKey) {
         return {
           content: [
@@ -47,7 +47,7 @@ export function tokenAnalyzer(server: any) {
           content: [
             {
               type: "text",
-              text: `❌ Invalid timeframe "${interval}". Please use one of: ${VALID_TIMEFRAMES.join(', ')}`
+              text: `Invalid timeframe specified: "${interval}"\n\nSupported timeframes: ${VALID_TIMEFRAMES.join(', ')}`
             }
           ]
         };
@@ -59,7 +59,7 @@ export function tokenAnalyzer(server: any) {
           content: [
             {
               type: "text",
-              text: `⚠️ Warning: "${normalizedSymbol}" might not be available on Binance. Common pairs include: BTC/USDT, ETH/USDT, SOL/USDT, etc.\n\nNote: This tool only works with Binance pairs. If you're sure this pair exists, I'll try anyway.`
+              text: `Warning: "${normalizedSymbol}" may not be available on Binance.\n\nCommon trading pairs include: BTC/USDT, ETH/USDT, SOL/USDT\n\nNote: This analysis tool exclusively supports Binance trading pairs. If you believe this pair exists on Binance, the system will attempt to proceed with the analysis.`
             }
           ]
         };
@@ -168,48 +168,46 @@ export function tokenAnalyzer(server: any) {
           content: [
             {
               type: "text",
-              text: `📊 TECHNICAL ANALYSIS INSTRUCTIONS
+              text: `TECHNICAL ANALYSIS INSTRUCTIONS
 
-You are analyzing ${normalizedSymbol} on the ${interval} timeframe on Binance.
+Analysis Target: ${normalizedSymbol} on ${interval} timeframe (Binance)
 
-CRITICAL RULES FOR ANALYSIS:
-1. Base your entire analysis ONLY on the indicator data provided below
-2. DO NOT make up or assume any indicator values that aren't present
-3. If an indicator has an error, acknowledge it but don't guess its value
-4. Provide a balanced view - mention both bullish and bearish signals
-5. Always state this is technical analysis, NOT financial advice
-6. Be specific with numbers - reference actual indicator values
-7. Explain your reasoning using standard technical analysis principles
+ANALYSIS REQUIREMENTS:
+1. Base analysis exclusively on provided indicator data
+2. Do not fabricate or assume missing indicator values
+3. Acknowledge errors in indicators without speculation
+4. Present balanced perspective including both bullish and bearish signals
+5. Clearly state this is technical analysis, not financial advice
+6. Reference specific numerical values from indicators
+7. Apply standard technical analysis methodologies
 
-WHAT TO ANALYZE:
-- Trend Direction: Look at EMAs, MACD, ADX
-- Momentum: Check RSI, Stochastic, CCI, MFI for overbought/oversold conditions
-- Volatility: Use Bollinger Bands and ATR
-- Volume Confirmation: Analyze OBV and CMF
-- Market Sentiment: Consider the Fear & Greed Index context
+ANALYSIS FRAMEWORK:
+- Trend Direction: Evaluate EMAs, MACD, ADX
+- Momentum: Assess RSI, Stochastic, CCI, MFI for overbought/oversold levels
+- Volatility: Review Bollinger Bands and ATR
+- Volume Confirmation: Examine OBV and CMF
+- Market Sentiment: Incorporate Fear & Greed Index context
 
-RECOMMENDATION FORMAT:
-1. Current Market Condition (bullish/bearish/neutral with confidence level)
-2. Key Signals (list the most important indicator readings)
-3. Potential Entry/Exit Levels (if applicable, based on support/resistance)
-4. Risk Assessment (based on volatility indicators)
-5. Overall Trading Bias (but remember: NOT financial advice!)
+EXPECTED OUTPUT STRUCTURE:
+1. Current Market Condition (bullish/bearish/neutral with confidence assessment)
+2. Key Technical Signals (prioritized indicator readings)
+3. Potential Entry/Exit Levels (derived from support/resistance analysis)
+4. Risk Assessment (volatility-based evaluation)
+5. Overall Trading Bias (with disclaimer: not financial advice)
 
-Now analyze the data below:`
+Proceed with analysis of the data below:`
             },
             {
               type: "text",
-              text: `\n\n🔍 FEAR & GREED INDEX:\n${formatFearGreed(fng)}`
+              text: `\n\nFEAR & GREED INDEX:\n${formatFearGreed(fng)}`
             },
             {
               type: "text",
-              text: `\n\n📈 INDICATOR DATA:\n\`\`\`json\n${JSON.stringify(summary, null, 2)}\n\`\`\``
+              text: `\n\nINDICATOR DATA:\n\`\`\`json\n${JSON.stringify(summary, null, 2)}\n\`\`\``
             },
             {
               type: "text",
-              text: `\n\n💡 SUPPORTED TIMEFRAMES: ${VALID_TIMEFRAMES.join(', ')}
-
-⚠️ DISCLAIMER: This analysis is based purely on technical indicators and should not be considered financial advice. Always do your own research and consider multiple factors before making any trading decisions.`
+              text: `\n\nSUPPORTED TIMEFRAMES: ${VALID_TIMEFRAMES.join(', ')}\n\nDISCLAIMER: This analysis is derived exclusively from technical indicators and should not be construed as financial advice. Conduct thorough independent research and consider multiple analytical factors before making any trading decisions.`
             }
           ],
           _metadata: summary
@@ -221,7 +219,7 @@ Now analyze the data below:`
           content: [
             {
               type: "text",
-              text: `❌ Error fetching technical indicators: ${errorMsg}\n\nPlease check:\n- Symbol format (should be COIN/USDT, e.g., BTC/USDT)\n- Timeframe is valid (${VALID_TIMEFRAMES.join(', ')})\n- The token is listed on Binance`
+              text: `Error retrieving technical indicator data: ${errorMsg}\n\nVerification checklist:\n- Symbol format is correct (format: COIN/USDT, example: BTC/USDT)\n- Timeframe is valid (supported: ${VALID_TIMEFRAMES.join(', ')})\n- Token is listed on Binance exchange`
             }
           ]
         };

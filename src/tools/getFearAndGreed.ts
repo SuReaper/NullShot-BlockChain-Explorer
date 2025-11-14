@@ -24,9 +24,9 @@ export function getFearAndGreed(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
         return {
           content: [
-            { 
-              type: "text", 
-              text: `❌ Error fetching Fear & Greed Index: ${errorMsg}` 
+            {
+              type: "text",
+              text: `Error retrieving Fear & Greed Index data: ${errorMsg}`
             }
           ]
         };

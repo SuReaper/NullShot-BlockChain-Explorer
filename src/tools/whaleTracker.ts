@@ -188,7 +188,7 @@ export function whaleTracker(server: any) {
             content: [
               {
                 type: "text",
-                text: `🐋 No whale transactions found with value ≥ $${minUsdThreshold.toLocaleString()}`
+                text: `No whale transactions found meeting the minimum threshold of $${minUsdThreshold.toLocaleString()}`
               }
             ],
             _metadata: {
@@ -218,13 +218,13 @@ export function whaleTracker(server: any) {
 
         // format the response text with emojis and nice formatting
         const responseText = [
-          `🐋 Whale Tracker Report`,
+          `WHALE TRACKER REPORT`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-          `📊 Total Transactions: ${allTransactions.length}`,
-          `⛓️ Distribution: ${Object.entries(chainDistribution).map(([chain, count]) => `${chain}: ${count}`).join(' | ')}`,
-          `💰 Total Volume: $${totalVolume.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-          `📈 Buys: ${buyCount} | 📉 Sells: ${sellCount}`,
-          `💵 Min Threshold: $${minUsdThreshold.toLocaleString()}`,
+          `Total Transactions: ${allTransactions.length}`,
+          `Chain Distribution: ${Object.entries(chainDistribution).map(([chain, count]) => `${chain}: ${count}`).join(' | ')}`,
+          `Total Volume: $${totalVolume.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+          `Buy Orders: ${buyCount} | Sell Orders: ${sellCount}`,
+          `Minimum Threshold: $${minUsdThreshold.toLocaleString()}`,
           '',
           '```json',
           JSON.stringify(allTransactions, null, 2),
@@ -235,9 +235,9 @@ export function whaleTracker(server: any) {
         
         return {
           content: [
-            { 
-              type: "text", 
-              text: "Make sure to provide detailed analystics based on the following results, as well as following these rules: Key Metrics: Quantitative or measurable indicators relevant to the topic. Do not make things up that isn't provided to you and you are unsure of. Interpretation: What the data means, not just what it shows. Assumptions: Clearly state what assumptions are being made in your analysis."
+            {
+              type: "text",
+              text: "Provide comprehensive analytics based on these results. Include: Key Metrics (quantitative indicators), Interpretation (what the data means), and Assumptions (clearly state any assumptions made). Only reference data that is actually provided - do not speculate or fabricate information."
             },
             { 
               type: "text", 
@@ -267,7 +267,7 @@ export function whaleTracker(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
         return {
           content: [
-            { type: "text", text: `❌ Error fetching whale transactions: ${errorMsg}` }
+            { type: "text", text: `Error retrieving whale transaction data: ${errorMsg}` }
           ]
         };
       }

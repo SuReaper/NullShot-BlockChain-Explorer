@@ -1,20 +1,16 @@
-
-
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getWalletTokenBalance } from './tools/getWalletTokenBalance';
 import { getWalletTokenTransactions } from './tools/getWalletTokenTransactions';
 import { whaleTracker } from './tools/whaleTracker';
 import { transactionTracker } from './tools/transactionTracker';
-// import { newsTracker } from './tools/newsTracker';
 import { tokenAnalyzer } from './tools/tokenAnalyzer';
 import { getNFTByWallet } from './tools/getNFTByWallet';
 import { getFearAndGreed } from './tools/getFearAndGreed';
 import { tokenSecurityChecker } from './tools/tokenSecurityChecker';
 import { tokenSearchAndInfo } from './tools/tokenSearchAndInfo';
+import { tokenPriceAlert } from './tools/tokenPriceAlert';  // ← ADD THIS LINE
 
-
-
-export function setupServerTools(server: McpServer) {
+export function setupServerTools(server: McpServer, env: Env, getAlertMonitor: () => any) {  // ← ADD env AND getAlertMonitor parameters
   // fetches Token Balances for an specific wallet (REQUIRES MORALIS'S API KEY)
   getWalletTokenBalance(server);
   // gets Transactions History for an specific wallet. (REQUIRES MORALIS'S API KEY)
@@ -33,4 +29,6 @@ export function setupServerTools(server: McpServer) {
   tokenSecurityChecker(server);
   // Searches a token's name and returns its info (Contract Address, price, etc).
   tokenSearchAndInfo(server);
+  // Sets up price alerts for tokens with Telegram notifications 
+  tokenPriceAlert(server, env, getAlertMonitor);  
 }

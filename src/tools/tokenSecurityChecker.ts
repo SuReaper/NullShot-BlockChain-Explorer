@@ -215,7 +215,7 @@ export function tokenSecurityChecker(server: any) {
             content: [
               {
                 type: "text",
-                text: `❌ Failed to fetch security data: ${data.message || 'Unknown error'}\n\nIf you didn't specify a chain, the default was Ethereum (chain ID: 1). Please verify the contract address and chain ID are correct.`
+                text: `Failed to retrieve security data: ${data.message || 'Unknown error'}\n\nNote: Default chain is Ethereum (chain ID: 1) if not specified. Please verify the contract address and chain ID are correct.`
               }
             ]
           };
@@ -229,7 +229,7 @@ export function tokenSecurityChecker(server: any) {
             content: [
               {
                 type: "text",
-                text: `❌ Token not found on ${CHAIN_NAMES[chain.toString()] || 'chain ' + chain}.\n\nPlease check:\n- Contract address is correct\n- Token exists on the specified chain\n- Chain ID is correct (default: 1 for Ethereum)`
+                text: `Token not found on ${CHAIN_NAMES[chain.toString()] || 'chain ' + chain}\n\nVerification checklist:\n- Contract address is accurate\n- Token exists on the specified chain\n- Chain ID is correct (default: 1 for Ethereum)`
               }
             ]
           };
@@ -361,49 +361,49 @@ export function tokenSecurityChecker(server: any) {
         };
 
         const responseText = [
-          `${getRiskEmoji(riskLevel)} Token Security Analysis Report`,
+          `${getRiskEmoji(riskLevel)} TOKEN SECURITY ANALYSIS`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
           ``,
-          `📊 TOKEN INFORMATION`,
+          `TOKEN INFORMATION`,
           `Name: ${analysis.token_info.name}`,
           `Symbol: ${analysis.token_info.symbol}`,
           `Chain: ${analysis.token_info.chain}`,
           `Contract: ${contractAddress.slice(0, 6)}...${contractAddress.slice(-4)}`,
-          `Holders: ${analysis.token_info.holder_count}`,
+          `Total Holders: ${analysis.token_info.holder_count}`,
           ``,
-          `🎯 RISK ASSESSMENT`,
+          `RISK ASSESSMENT`,
           `Risk Level: ${riskLevel}`,
           `Risk Score: ${riskScore}/100`,
           ``,
-          `🔒 CRITICAL SECURITY CHECKS`,
-          `Honeypot: ${analysis.critical_risks.is_honeypot ? '❌ YES - DANGER!' : '✅ No'}`,
-          `Can Buy: ${analysis.critical_risks.cannot_buy ? '❌ NO - DANGER!' : '✅ Yes'}`,
-          `Can Sell All: ${analysis.critical_risks.cannot_sell_all ? '❌ NO - DANGER!' : '✅ Yes'}`,
-          `Hidden Owner: ${analysis.critical_risks.hidden_owner ? '⚠️ Yes' : '✅ No'}`,
-          `Can Take Back Ownership: ${analysis.critical_risks.can_take_back_ownership ? '⚠️ Yes' : '✅ No'}`,
-          `Self Destruct: ${analysis.critical_risks.selfdestruct ? '❌ YES - DANGER!' : '✅ No'}`,
+          `CRITICAL SECURITY CHECKS`,
+          `Honeypot: ${analysis.critical_risks.is_honeypot ? 'YES - CRITICAL RISK' : 'No'}`,
+          `Can Buy: ${analysis.critical_risks.cannot_buy ? 'NO - CRITICAL RISK' : 'Yes'}`,
+          `Can Sell All: ${analysis.critical_risks.cannot_sell_all ? 'NO - CRITICAL RISK' : 'Yes'}`,
+          `Hidden Owner: ${analysis.critical_risks.hidden_owner ? 'Yes - Warning' : 'No'}`,
+          `Can Take Back Ownership: ${analysis.critical_risks.can_take_back_ownership ? 'Yes - Warning' : 'No'}`,
+          `Self Destruct: ${analysis.critical_risks.selfdestruct ? 'YES - CRITICAL RISK' : 'No'}`,
           ``,
-          `📝 CONTRACT PROPERTIES`,
-          `Open Source: ${analysis.contract_security.is_open_source ? '✅ Yes' : '⚠️ No'}`,
-          `Proxy Contract: ${analysis.contract_security.is_proxy ? '⚠️ Yes' : '✅ No'}`,
-          `Mintable: ${analysis.contract_security.is_mintable ? '⚠️ Yes' : '✅ No'}`,
-          `External Calls: ${analysis.contract_security.external_call ? '⚠️ Yes' : '✅ No'}`,
+          `CONTRACT PROPERTIES`,
+          `Open Source: ${analysis.contract_security.is_open_source ? 'Yes' : 'No - Warning'}`,
+          `Proxy Contract: ${analysis.contract_security.is_proxy ? 'Yes - Warning' : 'No'}`,
+          `Mintable: ${analysis.contract_security.is_mintable ? 'Yes - Warning' : 'No'}`,
+          `External Calls: ${analysis.contract_security.external_call ? 'Yes - Warning' : 'No'}`,
           ``,
-          `💰 TRADING SECURITY`,
+          `TRADING SECURITY`,
           `Buy Tax: ${analysis.trading_security.buy_tax}`,
           `Sell Tax: ${analysis.trading_security.sell_tax}`,
           `Transfer Tax: ${analysis.trading_security.transfer_tax}`,
-          `Trading Cooldown: ${analysis.trading_security.trading_cooldown ? '⚠️ Yes' : '✅ No'}`,
-          `Transfer Pausable: ${analysis.trading_security.transfer_pausable ? '⚠️ Yes' : '✅ No'}`,
-          `Slippage Modifiable: ${analysis.trading_security.slippage_modifiable ? '⚠️ Yes' : '✅ No'}`,
+          `Trading Cooldown: ${analysis.trading_security.trading_cooldown ? 'Yes - Warning' : 'No'}`,
+          `Transfer Pausable: ${analysis.trading_security.transfer_pausable ? 'Yes - Warning' : 'No'}`,
+          `Slippage Modifiable: ${analysis.trading_security.slippage_modifiable ? 'Yes - Warning' : 'No'}`,
           ``,
-          `👤 OWNERSHIP`,
-          `Owner Holding: ${analysis.ownership.owner_percent}`,
-          `Creator Holding: ${analysis.ownership.creator_percent}`,
+          `OWNERSHIP DISTRIBUTION`,
+          `Owner Holdings: ${analysis.ownership.owner_percent}`,
+          `Creator Holdings: ${analysis.ownership.creator_percent}`,
           ``,
-          `💧 LIQUIDITY`,
-          `Listed on DEX: ${analysis.liquidity.is_in_dex ? '✅ Yes' : '❌ No'}`,
-          `LP Locked: ${analysis.liquidity.lp_locked_percent}`,
+          `LIQUIDITY STATUS`,
+          `Listed on DEX: ${analysis.liquidity.is_in_dex ? 'Yes' : 'No'}`,
+          `LP Locked Percentage: ${analysis.liquidity.lp_locked_percent}`,
           analysis.liquidity.dex_info.length > 0 ? `DEX Liquidity: ${analysis.liquidity.dex_info.map(d => `${d.name} (${d.liquidity_usd})`).join(', ')}` : '',
           '',
           '```json',
@@ -415,7 +415,7 @@ export function tokenSecurityChecker(server: any) {
           content: [
             {
               type: "text",
-              text: "Provide a comprehensive security analysis based on these results. Follow these rules strictly: 1) Explain what each risk factor means in practical terms for potential investors. 2) Highlight any CRITICAL risks prominently and explain why they're dangerous. 3) Provide actionable recommendations (e.g., 'Avoid this token', 'Exercise extreme caution', 'Acceptable risk for experienced traders'). 4) If there are high taxes (>10%), explain the impact on trading. 5) Explain ownership concentration risks if owner/creator holds >20%. 6) Assess liquidity adequacy and lock status. 7) Do NOT make up information not provided in the data. 8) Be objective and professional in your analysis."
+              text: "Provide comprehensive security analysis based on these results. Requirements: 1) Explain practical implications of each risk factor for investors. 2) Emphasize CRITICAL risks and their potential consequences. 3) Provide actionable recommendations (avoid token / exercise extreme caution / acceptable for experienced traders). 4) For taxes exceeding 10%, explain trading impact. 5) Address ownership concentration risks when holdings exceed 20%. 6) Evaluate liquidity adequacy and lock status. 7) Reference only provided data without speculation. 8) Maintain objective, professional analysis tone."
             },
             {
               type: "text",
@@ -437,7 +437,7 @@ export function tokenSecurityChecker(server: any) {
           content: [
             {
               type: "text",
-              text: `❌ Error performing security analysis: ${errorMsg}\n\nPlease check:\n- Contract address is valid\n- Chain ID is correct (default: 1 for Ethereum)\n- Network connection is stable`
+              text: `Error occurred during security analysis: ${errorMsg}\n\nVerification checklist:\n- Contract address is valid\n- Chain ID is correct (default: 1 for Ethereum)\n- Network connection is stable`
             }
           ]
         };

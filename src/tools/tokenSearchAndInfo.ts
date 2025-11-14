@@ -102,7 +102,7 @@ export function tokenSearchAndInfo(server: any) {
             content: [
               {
                 type: "text",
-                text: `❌ DexScreener API error: ${response.status} ${response.statusText}`
+                text: `DexScreener API error: HTTP ${response.status} ${response.statusText}`
               }
             ]
           };
@@ -116,7 +116,7 @@ export function tokenSearchAndInfo(server: any) {
             content: [
               {
                 type: "text",
-                text: `🔍 No tokens found for "${searchQuery}". Try a different search term.`
+                text: `No tokens found matching "${searchQuery}"\n\nPlease verify your search query and try again with a different term.`
               }
             ]
           };
@@ -128,19 +128,19 @@ export function tokenSearchAndInfo(server: any) {
 
         // build a nice looking response with all the details
         const responseText = [
-          `🔍 Token Search Results for "${searchQuery}"`,
+          `TOKEN SEARCH RESULTS FOR "${searchQuery}"`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-          `📊 Found ${data.pairs.length} total pairs, showing top ${topPairs.length}`,
+          `Found ${data.pairs.length} total pairs | Displaying top ${topPairs.length}`,
           '',
           ...formattedTokens.map((token, index) => {
             return [
               `${index + 1}. ${token.tokenName} (${token.tokenSymbol})`,
-              `   ⛓️  Chain: ${token.chain}`,
-              `   💵 Price: ${token.priceUsd}`,
-              `   📈 Market Cap: ${token.marketCap}`,
-              `   🔗 Pair Address: ${token.pairAddress}`,
-              `   🌐 DEX: ${token.dexName}`,
-              `   🔗 View on DexScreener: ${token.dexUrl}`,
+              `   Chain: ${token.chain}`,
+              `   Current Price: ${token.priceUsd}`,
+              `   Market Cap: ${token.marketCap}`,
+              `   Pair Address: ${token.pairAddress}`,
+              `   DEX Platform: ${token.dexName}`,
+              `   View on DexScreener: ${token.dexUrl}`,
               ''
             ].join('\n');
           })
@@ -173,7 +173,7 @@ export function tokenSearchAndInfo(server: any) {
           content: [
             {
               type: "text",
-              text: `❌ Error searching tokens: ${errorMsg}`
+              text: `Error occurred during token search: ${errorMsg}`
             }
           ]
         };

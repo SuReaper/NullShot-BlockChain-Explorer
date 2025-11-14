@@ -191,13 +191,13 @@ export function getNFTByWallet(server: any) {
 
         // format the response text with emojis and formatting
         const responseText = [
-          `🖼️ NFT Portfolio Report`,
+          `NFT PORTFOLIO ANALYSIS`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-          `📊 Total NFTs: ${formattedNFTs.length}`,
-          `⛓️ Chain: ${chain.toUpperCase()}`,
-          `✅ Verified Collections: ${verifiedCount}/${formattedNFTs.length}`,
-          `💰 Total Floor Value: $${totalFloorValue.toFixed(2)}`,
-          `🔗 Wallet: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
+          `Total NFTs: ${formattedNFTs.length}`,
+          `Chain: ${chain.toUpperCase()}`,
+          `Verified Collections: ${verifiedCount}/${formattedNFTs.length}`,
+          `Total Floor Value: $${totalFloorValue.toFixed(2)}`,
+          `Wallet: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
           '',
           '```json',
           JSON.stringify(formattedNFTs, null, 2),
@@ -232,7 +232,7 @@ export function getNFTByWallet(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
         return {
           content: [
-            { type: "text", text: `❌ Error fetching NFTs: ${errorMsg}` }
+            { type: "text", text: `Error retrieving NFT data: ${errorMsg}` }
           ]
         };
       }

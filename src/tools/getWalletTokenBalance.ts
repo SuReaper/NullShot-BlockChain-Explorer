@@ -162,11 +162,11 @@ export function getWalletTokenBalance(server: any) {
 
         // format the response text with emojis and formatting
         const responseText = [
-          `✅ Wallet Token Balance Report`,
+          `WALLET TOKEN BALANCE REPORT`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-          `📊 Total Tokens: ${allTokens.length}`,
-          `⛓️ Chains: ${CHAINS.join(', ').toUpperCase()}`,
-          `🔗 Wallet: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
+          `Total Tokens: ${allTokens.length}`,
+          `Chains Analyzed: ${CHAINS.join(', ').toUpperCase()}`,
+          `Wallet Address: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
           '',
           '```json',
           JSON.stringify(allTokens, null, 2),
@@ -177,9 +177,9 @@ export function getWalletTokenBalance(server: any) {
         
         return {
           content: [
-            { 
-              type: "text", 
-              text: "Make sure to provide detailed analystics based on the following results, as well as following these rules: Key Metrics: Quantitative or measurable indicators relevant to the topic. Do not make things up that isn't provided to you and you are unsure of. Interpretation: What the data means, not just what it shows. Assumptions: Clearly state what assumptions are being made in your analysis."
+            {
+              type: "text",
+              text: "Provide comprehensive analytics based on these results. Include: Key Metrics (quantitative indicators), Interpretation (what the data means), and Assumptions (clearly state any assumptions made). Only reference data that is actually provided - do not speculate or fabricate information."
             },
             { 
               type: "text", 
@@ -205,7 +205,7 @@ export function getWalletTokenBalance(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
         return {
           content: [
-            { type: "text", text: `❌ Error fetching tokens: ${errorMsg}` }
+            { type: "text", text: `Error retrieving token balance data: ${errorMsg}` }
           ]
         };
       }

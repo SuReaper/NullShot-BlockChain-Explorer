@@ -1,63 +1,125 @@
+# NullShot BlockChain Explorer
 
-### NullShot BlockChain Explorer
+A professional MCP server built on NullShot's TypeScript Framework, providing real-time blockchain data access, comprehensive token analysis, and automated price alerts via Telegram. All tools utilize free APIs suitable for personal usage.
 
-This project is an MCP built on NullShot's TypeScript Framework. it's role is to connect Agents/LLMs to RealTime Blockchain data and give them access to the worldwide internet as well as giving detailed technical analysis. Every tool used in this project is absloutely free and decent for personal usage.
+## Features
 
+### Available Tools
 
-## Tools Included:
+| Tool | Description |
+|------|-------------|
+| **tokenPriceAlert** | Set up price alerts with Telegram notifications for specific tokens |
+| **tokenAnalyzer** | Technical analysis using RSI, MACD, EMA, Bollinger Bands, and more |
+| **tokenSecurityChecker** | Comprehensive security audit for token contracts (honeypot detection, ownership risks) |
+| **tokenSearchAndInfo** | Search tokens by name/symbol and retrieve metadata (price, market cap, DEX info) |
+| **whaleTracker** | Monitor large whale transactions across ETH and BSC chains |
+| **transactionTracker** | Decode transaction hashes into human-readable format |
+| **getWalletTokenBalance** | Check token holdings across multiple chains (ETH, Avalanche, BSC) |
+| **getWalletTokenTransactions** | Retrieve recent transaction history for any wallet |
+| **getNFTByWallet** | View NFT collections owned by a wallet address |
+| **getFearAndGreed** | Get current crypto market sentiment index |
 
-| Tools             | Description                                                                                     |
-|---------------------------|-------------------------------------------------------------------------------------------------|
-| **tokenAnalyzer**        | Analyzes tokens based on their technical indicators and provides detailed analysis.           |
-| **whaleTracker**         | Tracks large wallet movements and gives a detailed response.                                  |
-| **tokenSearchAndInfo**   | Searches for tokens by name and returns basic metadata such as symbol and price.              |
-| **tokenSecurityChecker** | Checks whether a token is a scam or legitimate.                                                 |
-| **transactionTracker**   | Decrypts a transaction's hash into a human-readable text.                                       |
-| **getWalletTokenTransactions** | Checks the latest transactions of a specific wallet.                                    |
-| **getWalletTokenBalance** | Checks the token holdings of a wallet address.                                                   |
-| **getNFTByWallet**       | Checks the NFTs owned by a wallet.                                                                |
-| **getFearAndGreed**       | Retrieves the current Fear and Greed index.                                                        |
+## Prerequisites
 
+### Required API Keys
 
+| API Key | Used By | Get It From |
+|---------|---------|-------------|
+| `MORALIS_API_KEY` | transactionTracker, getWalletTokenTransactions, getWalletTokenBalance, getNFTByWallet | [moralis.io](https://moralis.io) |
+| `DEXCHECK_API_KEY` | whaleTracker | [dexcheck.ai](https://dexcheck.ai) |
+| `TAAPI_API_KEY` | tokenAnalyzer | [taapi.io](https://taapi.io) |
+| `TGBOT_TOKEN` | tokenPriceAlert (Telegram notifications) | [@BotFather](https://t.me/BotFather) on Telegram |
 
-## Initialization
+## Setup Guide
 
-To get started, You will need three API Keys for some of the tools. TAAPI_API_KEY, DEXCHECK_API_KEY and MORALIS_API_KEY. Each one of the keys are used for the following tools:
+### 1. Get Your Telegram Bot Token
 
-MORALIS_API_KEY: transactionTracker, getWalletTokenTransactions, getWalletTokenBalance and getNFTByWallet.
-DEXCHECK_API_KEY: whaleTracker
-TAAPI_API_KEY: tokenAnalyzer
+1. Open Telegram and search for [@BotFather](https://t.me/BotFather)
+2. Send `/newbot` command
+3. Follow the prompts to create your bot
+4. Copy the token provided (format: `123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11`)
+5. Get your Chat ID:
+   - Send `/start` to [@userinfobot](https://t.me/userinfobot)
+   - Copy the Chat ID number provided
 
-Once you set get them, choose if you want to go local or you want to deploy. If it is local, put them inside of a .dev.vars file in the main folder with the following syntax:
+### 2. Configure API Keys
+
+#### For Local Development
+
+Create a `.dev.vars` file in the project root:
+
+```env
+MORALIS_API_KEY=your_moralis_key_here
+DEXCHECK_API_KEY=your_dexcheck_key_here
+TAAPI_API_KEY=your_taapi_key_here
+TGBOT_TOKEN=your_telegram_bot_token_here
 ```
-MORALIS_API_KEY=Insert Your Api Key Here
-...
+
+#### For Production Deployment
+
+Use Wrangler secrets for secure storage:
+
+```bash
+npx wrangler secret put MORALIS_API_KEY
+npx wrangler secret put DEXCHECK_API_KEY
+npx wrangler secret put TAAPI_API_KEY
+npx wrangler secret put TGBOT_TOKEN
 ```
 
-For deploying, Put them inside of wrangler.jsonc in the vars section like so:
-```
-"MORALIS_API_KEY": "Your Api Key Here"
-```
+### 3. Deploy or Run Locally
 
-Now you need to open up the terminal inside of the workspace folder and type in the following:
+#### Local Development
 
-**For Local:** (needs a .dev.vars file)
-```
+```bash
 npx wrangler dev
 ```
 
-**For Deploying:** 
-```
+#### Production Deployment
+
+```bash
 npx wrangler deploy
 ```
 
-The whole thing is basically done, but now, you would want to set it up. Here is an example of how it would look like inside of Roo Code:
+After deployment, note your worker URL (e.g., `https://your-worker.workers.dev`)
+
+### 4. Configure Telegram Webhook
+
+Set up the webhook so your bot can receive commands. Replace `<YOUR_BOT_TOKEN>` and `<YOUR_WORKER_URL>` with your actual values:
+
 ```
-  {"mcpServers": {
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook?url=<YOUR_WORKER_URL>/telegram-webhook
+```
+
+**Example:**
+```
+https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setWebhook?url=https://blockchain-mcp.workers.dev/telegram-webhook
+```
+
+Open this URL in your browser. You should see:
+```json
+{"ok":true,"result":true,"description":"Webhook was set"}
+```
+
+### 5. Test Your Bot
+
+Send `/start` to your bot on Telegram. You should receive a welcome message with your Chat ID.
+
+## MCP Configuration
+
+### Roo Code / Claude Desktop
+
+Add to your MCP settings configuration:
+
+```json
+{
+  "mcpServers": {
     "nullshot-blockchain-explorer": {
       "type": "sse",
-      "url": "example.workers.dev/sse",
+      "url": "https://your-worker.workers.dev/sse",
       "alwaysAllow": [
+        "tokenPriceAlert",
+        "confirmTokenAlert",
+        "cancelAlert",
         "getWalletTokenTransactions",
         "getWalletTokenBalance",
         "transactionTracker",
@@ -74,4 +136,65 @@ The whole thing is basically done, but now, you would want to set it up. Here is
 }
 ```
 
-That's it. Now you can easily use the tool by telling the ai whatever you want! :)
+## Usage Examples
+
+### Setting Up Price Alerts
+
+```
+Set a price alert for PEPE when it reaches $0.000001
+```
+
+The system will:
+1. Search for PEPE token
+2. Show you matching options
+3. Confirm your selection
+4. Monitor price every 5 minutes
+5. Send Telegram notification when target is reached
+
+### Analyzing Tokens
+
+```
+Analyze BTC/USDT on 1h timeframe
+```
+
+### Checking Wallet Activity
+
+```
+Show me the token balance for wallet 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb
+```
+
+### Tracking Whale Movements
+
+```
+Show me recent whale transactions over $100,000
+```
+
+## Telegram Bot Commands
+
+| Command | Description |
+|---------|-------------|
+| `/start` | Display welcome message and get your Chat ID |
+| `/myalerts` | View all active price alerts with current prices |
+| `/refresh` | Manually trigger alert check for all monitored tokens |
+
+## Price Alert Monitoring
+
+- Alerts are checked every **5 minutes** via Cloudflare cron trigger
+- Automatic notifications sent to Telegram when conditions are met
+- Alerts are automatically removed after triggering
+- Supports multiple alert types: price_above, price_below, percent_change
+
+## Technical Notes
+
+- Built on Cloudflare Workers for global edge deployment
+- Uses Durable Objects for persistent alert storage
+- Rate limits respected for all external APIs
+- DexScreener: 300 requests/minute
+
+## License
+
+See LICENSE file for details.
+
+## Support
+
+For issues or questions, please open an issue on the repository.

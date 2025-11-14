@@ -235,12 +235,12 @@ export function getWalletTokenTransactions(server: any) {
         // format response with summary info
         const chainList = Object.keys(allTransactions).join(', ').toUpperCase();
         const responseText = [
-          `✅ Wallet Transaction History Report`,
+          `WALLET TRANSACTION HISTORY`,
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-          `📊 Total Transactions: ${totalTransactions}`,
-          `⛓️ Chains: ${chainList}`,
-          `🔗 Wallet: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
-          `Note: Only last 5 transactions per chain are shown.`,
+          `Total Transactions: ${totalTransactions}`,
+          `Chains Analyzed: ${chainList}`,
+          `Wallet Address: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
+          `Note: Displaying the 5 most recent transactions per chain`,
           '',
           '```json',
           JSON.stringify(allTransactions, null, 2),
@@ -251,9 +251,9 @@ export function getWalletTokenTransactions(server: any) {
         
         return {
           content: [
-            { 
-              type: "text", 
-              text: "Make sure to provide detailed analystics based on the following results, as well as following these rules: Key Metrics: Quantitative or measurable indicators relevant to the topic. Do not make things up that isn't provided to you and you are unsure of. Interpretation: What the data means, not just what it shows. Assumptions: Clearly state what assumptions are being made in your analysis."
+            {
+              type: "text",
+              text: "Provide comprehensive analytics based on these results. Include: Key Metrics (quantitative indicators), Interpretation (what the data means), and Assumptions (clearly state any assumptions made). Only reference data that is actually provided - do not speculate or fabricate information."
             },
             { 
               type: "text", 
@@ -279,7 +279,7 @@ export function getWalletTokenTransactions(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
         return {
           content: [
-            { type: "text", text: `❌ Error fetching transactions: ${errorMsg}` }
+            { type: "text", text: `Error retrieving transaction history: ${errorMsg}` }
           ]
         };
       }

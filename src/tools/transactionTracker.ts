@@ -243,7 +243,7 @@ export function transactionTracker(server: any) {
         ].filter(line => line !== '').join('\n'); // filter out empty entity/label lines
 
         return {
-          prompt: [{ type: "text", text: "Make sure to provide detailed analystics based on the following results, as well as following these rules: Key Metrics: Quantitative or measurable indicators relevant to the topic. Do not make things up that isn't provided to you and you are unsure of. Interpretation: What the data means, not just what it shows.  Assumptions: Clearly state what assumptions are being made in your analysis."}],
+          prompt: [{ type: "text", text: "Provide comprehensive analytics based on these results. Include: Key Metrics (quantitative indicators), Interpretation (what the data means), and Assumptions (clearly state any assumptions made). Only reference data that is actually provided - do not speculate or fabricate information."}],
           content: [{ type: "text", text: responseText }],
           transaction: formattedTx,
           summary: {
@@ -259,7 +259,7 @@ export function transactionTracker(server: any) {
         const errorMsg = error instanceof Error ? error.message : 'Something went wrong';
         return {
           content: [
-            { type: "text", text: `❌ Failed to fetch transaction: ${errorMsg}` }
+            { type: "text", text: `Error retrieving transaction data: ${errorMsg}` }
           ]
         };
       }
